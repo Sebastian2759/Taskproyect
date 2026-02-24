@@ -1,59 +1,77 @@
-# Taskproyect
+# Task Manager – Frontend (Angular 19)
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 19.2.21.
+## Pasos para ejecutar el proyecto
 
-## Development server
+### Requisitos
+- Node.js 18+ (recomendado)
+- Angular CLI (o usar `npx`)
 
-To start a local development server, run:
+### 1) Instalar dependencias
+```bash
+npm install
+```
 
+### 2) Configurar base URL del API
+El frontend usa una **base URL única**:
+- `http://localhost:7777/api/v1/`
+
+Opciones recomendadas:
+
+#### A) Proxy (recomendado)
+Crear/ajustar `proxy.conf.json`:
+```json
+{
+  "/api": {
+    "target": "http://localhost:7777",
+    "secure": false,
+    "changeOrigin": true
+  }
+}
+```
+
+Ejecutar:
+```bash
+ng serve --proxy-config proxy.conf.json
+```
+
+> Con proxy, el front consume `/api/v1/...` sin problemas de CORS.
+
+#### B) Variable de entorno (si no usas proxy)
+En `environment.ts`:
+```ts
+export const environment = {
+  apiBaseUrl: 'http://localhost:7777/api/v1'
+};
+```
+Y el `ApiClientService` concatena rutas desde esa base.
+
+### 3) Ejecutar
 ```bash
 ng serve
 ```
+Aplicación: `http://localhost:4200`
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+---
 
-## Code scaffolding
+## Decisiones técnicas
+- **Angular 19** con Standalone Components.
+- **Servicios por feature**
+  - `TasksService`, `UsersService`, `ValuesService`
+  - `ApiClientService` centraliza `HttpClient`, base URL y tipado de `ResponseBase<T>`.
+- **UI reusable**
+  - `Container`, `Paginator`, `ConfirmDialog`, `Toast`
+  - Estilos consistentes usando tokens CSS (variables) para colores/spacing/bordes.
+- **Formato fecha/hora**
+  - Pipe `DateTimePipe` para normalizar la presentación.
+- **Combos desde API**
+  - Usuarios desde `GET /users` (paginado, se usa un pageSize alto para combo)
+  - Status/Priority desde `GET /values/*` (MasterDataDetail)
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+---
 
-```bash
-ng generate component component-name
-```
+---
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
-
-```bash
-ng generate --help
-```
-
-## Building
-
-To build the project run:
-
-```bash
-ng build
-```
-
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
-
-## Running unit tests
-
-To execute unit tests with the [Karma](https://karma-runner.github.io) test runner, use the following command:
-
-```bash
-ng test
-```
-
-## Running end-to-end tests
-
-For end-to-end (e2e) testing, run:
-
-```bash
-ng e2e
-```
-
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## Notas
+- Update de estado: el UI solo permite `Pending -> InProgress -> Done` (respeta la regla de negocio).
+- Si ves `HttpErrorResponse` con status 200, normalmente es por respuesta no parseable o mismatch de tipado:
+  revisar `ApiClientService` y el modelo `ResponseBase<T>`.
