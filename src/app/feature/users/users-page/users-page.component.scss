@@ -1,0 +1,15 @@
+.table{
+  display:grid;
+  gap:8px;
+}
+.thead, .trow{
+  display:grid;
+  grid-template-columns: 1.1fr 1.4fr .4fr .8fr;
+  gap:12px;
+  padding:10px 12px;
+  border:1px solid rgba(255,255,255,.10);
+  border-radius:10px;
+}
+.thead{ font-weight:600; background: rgba(255,255,255,.03); }
+.trow{ transition: filter var(--trans); }
+.trow:hover{ filter: brightness(1.08); }

@@ -1,0 +1,56 @@
+<app-container title="Tasks" subtitle="Crear, filtrar y actualizar estado">
+  <app-task-form (created)="load()"></app-task-form>
+
+  <div class="card stack" style="margin-top:12px;">
+    <div class="row">
+      <select class="input" [(ngModel)]="statusFilter" [disabled]="loadingStatuses">
+        <option value="">Todos</option>
+        @for (s of statuses; track s.id) {
+          <option [value]="s.name">{{ s.name }}</option>
+        }
+      </select>
+
+      <input class="input" placeholder="Buscar por título" [(ngModel)]="search">
+
+      <button class="btn btn-ghost" (click)="pageNumber=1; load()" [disabled]="loading">
+        {{ loading ? 'Cargando...' : 'Filtrar' }}
+      </button>
+    </div>
+
+    <div class="table">
+      <div class="thead">
+        <div>Título</div><div>Asignado</div><div>Estado</div><div>Creado</div><div>Acciones</div>
+      </div>
+
+      @for (t of rows; track t.id) {
+        <div class="trow">
+          <div>{{ t.title }}</div>
+          <div class="muted">{{ t.assignedUserName }}</div>
+          <div>{{ t.status }}</div>
+          <div class="muted">{{ t.createdAtUtc | dateTime }}</div>
+
+          <div class="row" style="justify-content:flex-end;">
+            @if (getNextAction(t.status); as next) {
+              <button class="btn btn-primary"
+                      (click)="applyNextStatus(t.id, t.status)"
+                      [disabled]="updatingId===t.id">
+                {{ updatingId===t.id ? '...' : next }}
+              </button>
+            } @else {
+              <span class="muted">—</span>
+            }
+          </div>
+        </div>
+      }
+    </div>
+
+    <app-paginator
+      [pageNumber]="pageNumber"
+      [pageSize]="pageSize"
+      [totalCount]="totalCount"
+      (pageChange)="onPage($event)">
+    </app-paginator>
+  </div>
+
+  <app-confirm-dialog></app-confirm-dialog>
+</app-container>

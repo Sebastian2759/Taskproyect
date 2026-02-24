@@ -1,0 +1,8 @@
+.nav{
+  display:flex; gap:12px;
+  padding: 12px 18px;
+  border-bottom: 1px solid rgba(255,255,255,.10);
+  background: rgba(255,255,255,.02);
+}
+a{ color: var(--text); text-decoration:none; padding:8px 10px; border-radius:10px; }
+a:hover{ background: rgba(255,255,255,.06); }

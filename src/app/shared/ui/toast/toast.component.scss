@@ -1,0 +1,13 @@
+.toast{
+  position: fixed; right: 16px; bottom: 16px;
+  padding: 12px 14px;
+  border-radius: 12px;
+  background: rgba(255,255,255,.08);
+  border: 1px solid rgba(255,255,255,.12);
+  backdrop-filter: blur(10px);
+  box-shadow: var(--shadow);
+  transition: opacity var(--trans), transform var(--trans);
+}
+.success{ border-color: rgba(34,197,94,.6); }
+.error{ border-color: rgba(239,68,68,.6); }
+.info{ border-color: rgba(59,130,246,.6); }

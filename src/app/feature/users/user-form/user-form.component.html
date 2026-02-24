@@ -1,0 +1,13 @@
+<div class="card stack">
+  <div class="row">
+    <input class="input" placeholder="Nombre" [formControl]="form.controls.name">
+    <input class="input" placeholder="Email" [formControl]="form.controls.email">
+    <button class="btn btn-primary" (click)="submit()" [disabled]="loading || form.invalid">
+      {{ loading ? 'Guardando...' : 'Crear' }}
+    </button>
+  </div>
+
+  <div class="muted" *ngIf="form.invalid">
+    Completa nombre y email válido.
+  </div>
+</div>

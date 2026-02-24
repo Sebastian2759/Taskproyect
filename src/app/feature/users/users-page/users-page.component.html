@@ -1,0 +1,38 @@
+<app-container title="Users" subtitle="Crear y listar usuarios">
+  <app-user-form (created)="load()"></app-user-form>
+
+  <div class="card stack" style="margin-top:12px;">
+    <div class="row">
+      <input class="input" placeholder="Buscar por nombre o email" [(ngModel)]="search">
+      <select class="input" [(ngModel)]="isActive">
+        <option [ngValue]="true">Activos</option>
+        <option [ngValue]="false">Inactivos</option>
+        <option [ngValue]="null">Todos</option>
+      </select>
+
+      <button class="btn btn-ghost" (click)="pageNumber=1; load()" [disabled]="loading">
+        {{ loading ? 'Cargando...' : 'Buscar' }}
+      </button>
+    </div>
+
+    <div class="table">
+      <div class="thead">
+        <div>Nombre</div><div>Email</div><div>Activo</div><div>Creado</div>
+      </div>
+
+      <div class="trow" *ngFor="let u of rows">
+        <div>{{ u.name }}</div>
+        <div class="muted">{{ u.email }}</div>
+        <div>{{ u.isActive ? 'Sí' : 'No' }}</div>
+        <div class="muted">{{ u.createdAtUtc | dateTime }}</div>
+      </div>
+    </div>
+
+    <app-paginator
+      [pageNumber]="pageNumber"
+      [pageSize]="pageSize"
+      [totalCount]="totalCount"
+      (pageChange)="onPage($event)">
+    </app-paginator>
+  </div>
+</app-container>

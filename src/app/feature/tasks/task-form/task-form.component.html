@@ -1,0 +1,37 @@
+<div class="card stack">
+  <div class="row">
+    <input class="input" placeholder="Título" [formControl]="form.controls.title">
+
+    <select class="input" [formControl]="form.controls.assignedUserId" [disabled]="loadingLookups">
+      <option value="" disabled selected>Selecciona usuario</option>
+      @for (u of users; track u.id) {
+        <option [value]="u.id">{{ u.name }} ({{ u.email }})</option>
+      }
+    </select>
+  </div>
+
+  <div class="row">
+    <select class="input" [formControl]="form.controls.priorityId" [disabled]="loadingLookups">
+      <option value="">Sin prioridad</option>
+      @for (p of priorities; track p.id) {
+        <option [value]="p.id">{{ p.name }}</option>
+      }
+    </select>
+
+    <button class="btn btn-primary"
+            (click)="submit()"
+            [disabled]="loading || loadingLookups || form.invalid">
+      {{ loading ? 'Guardando...' : 'Crear Task' }}
+    </button>
+  </div>
+
+  <textarea class="input" rows="3" placeholder="Descripción" [formControl]="form.controls.description"></textarea>
+
+  <textarea class="input" rows="3"
+            placeholder='AdditionalInfo JSON (opcional)'
+            [formControl]="form.controls.additionalInfo"></textarea>
+
+  @if (loadingLookups) {
+    <div class="muted">Cargando usuarios y prioridades...</div>
+  }
+</div>

@@ -1,1 +1,62 @@
-/* You can add global styles to this file, and also import other style files */
+:root{
+  --bg:#0f172a;
+  --surface:#111c33;
+  --primary:#3b82f6;
+  --success:#22c55e;
+  --danger:#ef4444;
+  --text:#e5e7eb;
+  --muted:#94a3b8;
+
+  --radius:12px;
+  --shadow:0 10px 30px rgba(0,0,0,.25);
+  --gap:12px;
+  --trans:150ms ease;
+  --font:system-ui,-apple-system,Segoe UI,Roboto,Arial;
+}
+
+*{ box-sizing:border-box; }
+body{
+  margin:0;
+  font-family:var(--font);
+  background:var(--bg);
+  color:var(--text);
+}
+
+.card{
+  background:var(--surface);
+  border-radius:var(--radius);
+  box-shadow:var(--shadow);
+  padding:16px;
+}
+
+.row{ display:flex; gap:var(--gap); align-items:center; }
+.stack{ display:flex; flex-direction:column; gap:var(--gap); }
+.muted{ color:var(--muted); }
+
+.btn{
+  border:0;
+  border-radius:10px;
+  padding:10px 14px;
+  cursor:pointer;
+  transition: transform var(--trans), opacity var(--trans), filter var(--trans);
+}
+.btn:active{ transform:scale(.98); }
+.btn[disabled]{ opacity:.6; cursor:not-allowed; }
+.btn-primary{ background:var(--primary); color:white; }
+.btn-ghost{ background:transparent; border:1px solid rgba(255,255,255,.12); color:var(--text); }
+.btn-danger{ background:var(--danger); color:white; }
+
+.input, select, textarea{
+  width:100%;
+  padding:10px 12px;
+  border-radius:10px;
+  border:1px solid rgba(255,255,255,.12);
+  background:rgba(255,255,255,.04);
+  color:var(--text);
+  transition:border-color var(--trans), filter var(--trans);
+}
+.input:focus, select:focus, textarea:focus{
+  outline:none;
+  border-color: rgba(59,130,246,.8);
+  filter: brightness(1.05);
+}
